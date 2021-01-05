@@ -49,9 +49,24 @@ def logisticRegression():
 
 # softmax多分类问题
 def softmax_MultiCategoryClassification():
+    (train_image,train_label),(test_image,test_label)=tf.keras.datasets.fashion_mnist.load_data()
+    # plt.imshow(train_image[0])
+    # plt.show()
+    train_image=train_image/255
+    test_image=test_image/255
+    model=tf.keras.Sequential()
+    model.add(tf.keras.layers.Flatten(input_shape=(28,28)))
+    model.add(tf.keras.layers.Dense(128,activation='relu'))
+    model.add(tf.keras.layers.Dense(10,activation='softmax'))
+    print(model.summary())
+    model.compile(optimizer=tf.keras.optimizers.Adam(lr=0.01),loss='sparse_categorical_crossentropy',metrics=['acc'])#metrics=['acc']参数是指定每一步输出的信息，是列表类型
+    history=model.fit(train_image,train_label,epochs=5)
+    print(history)
+    #两种损失函数 sparse_categorical_crossentropy
     pass
 
 if __name__ == "__main__":
     # linearRegression()
     # MultilayerPercetron()
-    logisticRegression()
+    # logisticRegression()
+    softmax_MultiCategoryClassification()
