@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 # 线性回归
 def linearRegression():
-    data=pd.read_csv('income1.csv')
+    data=pd.read_csv('Data/Income1.csv')
     x=data.Education
     y=data.Income
     model=tf.keras.Sequential()
@@ -31,7 +31,7 @@ def MultilayerPercetron():
 # 逻辑回归
 def logisticRegression():
     # 信用卡欺诈数据
-    data=pd.read_csv('credit-a.csv',header=None)    #因为数据第一行没有数据，不加header参数会自动将第一行数据作为标题
+    data=pd.read_csv('Data/credit-a.csv', header=None)    #因为数据第一行没有数据，不加header参数会自动将第一行数据作为标题
     print(data.head)
     print(data.iloc[:,-1].value_counts()) #输出最后一行值的数量,记得使用iloc方法取数据
     x=data.iloc[:,:-1]
@@ -41,6 +41,7 @@ def logisticRegression():
     model.add(tf.keras.layers.Dense(4, activation='relu'))
     model.add(tf.keras.layers.Dense(1,  activation='sigmoid'))
     print(model.summary())
+    # 二分类对数损失 'binary_crossentropy'
     model.compile(optimizer='adam',loss='binary_crossentropy',metrics=['acc'])#metrics=['acc']参数是指定每一步输出的信息，是列表类型
     history=model.fit(x,y,epochs=100)
     print(history)
