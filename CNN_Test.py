@@ -26,6 +26,18 @@ def CNN_demo1():
     history=model.fit(train_image,train_label,epochs=10,validation_data=(test_image, test_label))
     print(history)
 
+
+# 卫星图片二分类
+# 数据预处理部分
+# 1. 数据的批量读取
+# 2. 统一数据大小
+# 3. 数据类型转换
+# 4. 数据归一化
+# 5. 样本+标签整合
+# 6. 划分训练集、测试集
+# 构建模型
+# # 卷积层（卷积-BN层-激活函数）->池化层->...->全局均值池化层->Dense层
+
 def CNN_satelliteImage_Classification():
     # 读取图片函数
     def load_image(path):
@@ -59,24 +71,50 @@ def CNN_satelliteImage_Classification():
     test_ds=test_ds.batch(BATCH_SIZE)
 
     model=keras.Sequential()
-    model.add(keras.layers.Conv2D(64,(3,3),input_shape=(256,256,3),activation='relu'))
-    model.add(keras.layers.Conv2D(64,(3,3),activation='relu'))
+    model.add(keras.layers.Conv2D(64,(3,3),input_shape=(256,256,3)))
+    model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.Activation('relu'))
+    model.add(keras.layers.Conv2D(64,(3,3)))
+    model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.Activation('relu'))
     model.add(keras.layers.MaxPool2D())
-    model.add(keras.layers.Conv2D(128,(3,3),activation='relu'))
-    model.add(keras.layers.Conv2D(128,(3,3),activation='relu'))
+    model.add(keras.layers.Conv2D(128,(3,3)))
+    model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.Activation('relu'))
+    model.add(keras.layers.Conv2D(128,(3,3)))
+    model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.Activation('relu'))
     model.add(keras.layers.MaxPool2D())
-    model.add(keras.layers.Conv2D(256,(3,3),activation='relu'))
-    model.add(keras.layers.Conv2D(256,(3,3),activation='relu'))
+    model.add(keras.layers.Conv2D(256,(3,3)))
+    model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.Activation('relu'))
+    model.add(keras.layers.Conv2D(256,(3,3)))
+    model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.Activation('relu'))
     model.add(keras.layers.MaxPool2D())
-    model.add(keras.layers.Conv2D(512,(3,3),activation='relu'))
-    model.add(keras.layers.Conv2D(512,(3,3),activation='relu'))
+    model.add(keras.layers.Conv2D(512,(3,3)))
+    model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.Activation('relu'))
+    model.add(keras.layers.Conv2D(512,(3,3)))
+    model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.Activation('relu'))
     model.add(keras.layers.MaxPool2D())
-    model.add(keras.layers.Conv2D(512,(3,3),activation='relu'))
-    model.add(keras.layers.Conv2D(512,(3,3),activation='relu'))
-    model.add(keras.layers.Conv2D(512,(3,3),activation='relu'))
+    model.add(keras.layers.Conv2D(512,(3,3)))
+    model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.Activation('relu'))
+    model.add(keras.layers.Conv2D(512,(3,3)))
+    model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.Activation('relu'))
+    model.add(keras.layers.Conv2D(512,(3,3)))
+    model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.Activation('relu'))
     model.add(keras.layers.GlobalAveragePooling2D()) #对每层（通道）图像求平均 得到通道数量的数据数量
-    model.add(keras.layers.Dense(1024,activation='relu'))
-    model.add(keras.layers.Dense(256,activation='relu'))
+    model.add(keras.layers.Dense(1024))
+    model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.Activation('relu'))
+    model.add(keras.layers.Dense(256))
+    model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.Activation('relu'))
     model.add(keras.layers.Dense(1,activation='sigmoid'))
     print(model.summary())
 
