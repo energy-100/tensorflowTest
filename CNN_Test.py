@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import glob
 import random
 import os
+
+
 # 卷积神经网络 测试在 kaggle 上运行
 # 1.卷积->池化->卷积->全局池化->输出
 # 卷积核数量最好是2^n
@@ -37,7 +39,6 @@ def CNN_demo1():
 # 6. 划分训练集、测试集
 # 构建模型
 # # 卷积层（卷积-BN层-激活函数）->池化层->...->全局均值池化层->Dense层
-
 def CNN_satelliteImage_Classification():
     # 读取图片函数
     def load_image(path):
@@ -140,7 +141,7 @@ def CNN_satelliteImage_Classification():
     # plt.imshow(tensor_image.numpy())
     # plt.show()
 
-
+# 学习模型最后直接输出（不使用sigmoid或softmax激活） from_logits=True 这样计算更加稳定
 def CNN_birds_Classification():
     # 读取图片函数
     def load_image(path,label):
@@ -188,23 +189,6 @@ def CNN_birds_Classification():
     train_ds = train_ds.repeat().shuffle(100).batch(BATCH_SIZE)
     test_ds = test_ds.batch(BATCH_SIZE)
 
-    random.shuffle(all_image_path)  # 乱序
-    label_to_index = {'airplane': 0, 'lake': 1}
-    index_to_label = dict((v, k) for k, v in label_to_index.items())
-    all_labels = [label_to_index[elem.split('\\')[1]] for elem in all_image_path]
-    img_ds = tf.data.Dataset.from_tensor_slices(all_image_path)  # 样本数据
-    img_ds = img_ds.map(load_image)  # 作用map()函数，将路径转化为图像数据
-    label_ds = tf.data.Dataset.from_tensor_slices(all_labels)  # 标签数据
-    img_label_ds = tf.data.Dataset.zip((img_ds, label_ds))  # 样本数据+标签数据
-
-    train_count = int(len(all_image_path) * 0.2)
-    test_count = len(all_image_path) - train_count
-    train_ds = img_label_ds.skip(test_count)
-    test_ds = img_label_ds.take(test_count)
-
-    BATCH_SIZE = 16
-    train_ds = train_ds.repeat().shuffle(100).batch(BATCH_SIZE)
-    test_ds = test_ds.batch(BATCH_SIZE)
 
     model = keras.Sequential()
     model.add(keras.layers.Conv2D(64, (3, 3), input_shape=(256, 256, 3)))
