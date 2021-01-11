@@ -6,6 +6,20 @@ import datetime
 
 def tensorboard_test():
 
+    # 定义自适应学习率函数(自定义参数)
+    def lr_sche(epoch):
+        learning_rate=0.2
+        if epoch>5:
+            learning_rate=0.02
+        if epoch>10:
+            learning_rate = 0.01
+        if epoch>20:
+            learning_rate = 0.005
+
+        #写入文件
+        tf.summary.scalar('learning_rate',data=learning_rate,step=epoch)
+        return learning_rate
+
     # 加载数据集
     (train_image, train_labels), (test_image, test_labels) = tf.keras.datasets.mnist.load_data()
 
@@ -40,10 +54,15 @@ def tensorboard_test():
     model.compile(optimizer=tf.optimizers.Adam(),loss=tf.losses.SparseCategoricalCrossentropy(),metrics=['accuracy'])
     log_dir_str = 'log/'+datetime.datetime.now().strftime('%y%m%d-%H%M%S')
     tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir_str,histogram_freq=1)
+    lr_callback = tf.keras.callbacks.LearningRateScheduler(lr_sche)
+    file_writer = tf.summary.create_file_writer(log_dir_str+'/lr')     #实例化文件编写器
+    file_writer.set_as_default() # 设置为默认文件编写器
+
+
     model.fit(ds,validation_data=test_ds,
               epochs=10,steps_per_epoch=len(train_image)//128,
               validation_steps=len(test_image)//128,
-              callbacks=[tensorboard_callback])
+              callbacks=[tensorboard_callback,lr_callback])
 
     # 启动 tensorboard
     # 在命令行输入以下代码
