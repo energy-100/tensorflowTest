@@ -2,6 +2,8 @@ import tensorflow as tf
 import numpy as np
 from tensorflow import keras
 from tensorflow.keras import layers
+
+
 def demo1():
     # print(tf.__version__)
     # print(tf.executing_eagerly())
@@ -66,8 +68,10 @@ def eager_tape_test():
     print(gard1)
     print(gard2)
 
+
 # 损失函数 小写(函数或字符串)开头表示返回函数的函数，一般用在 complile 函数中,根据参数返回相应类型的小写的同名函数
 # 小写表示函数需要添加参数执行，一般用在自定义损失函数和自定义优化函数中
+# 使用fit方法时采用repeat() 自定义函数时不需要repeat()
 def eager_tape_Demo():
     # 自定义损失和优化函数
     loss_func=keras.losses.SparseCategoricalCrossentropy(from_logits=True)
@@ -105,6 +109,7 @@ def eager_tape_Demo():
 
     # 将数据转化为 tensor
     ds=tf.data.Dataset.from_tensor_slices((train_image,train_labels))
+
 
     # 数据乱序 分batch
     ds=ds.shuffle(10000).batch(32)

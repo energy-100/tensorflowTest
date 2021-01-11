@@ -35,7 +35,7 @@ def CNN_imdb_Test():
     model.add(layers.Dropout(0.2))
     model.add(layers.Dense(1,activation='sigmoid'))  # 输入的词汇表的大小 输出维度（降维后的维度）
     print(model.summary())
-    model.compile(optimizer=keras.optimizers.Adam(0.001),loss=keras.losses.BinaryCrossentropy(),metrics=['acc'])
+    model.compile(optimizer=keras.optimizers.Adam(0.001),loss=keras.losses.BinaryCrossentropy(),metrics=['accuracy'])
     history=model.fit(x_train,y_train,epochs=15,batch_size=256,validation_data=(x_test,y_test))
     print(history)
 if __name__ == "__main__":

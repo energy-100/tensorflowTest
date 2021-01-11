@@ -62,7 +62,7 @@ def softmax_MultiCategoryClassification():
     model.add(tf.keras.layers.Dense(128,activation='relu'))
     model.add(tf.keras.layers.Dense(10,activation='softmax'))
     print(model.summary())
-    model.compile(optimizer=tf.keras.optimizers.Adam(lr=0.01),loss='sparse_categorical_crossentropy',metrics=['acc'])#metrics=['acc']参数是指定每一步输出的信息，是列表类型
+    model.compile(optimizer=tf.keras.optimizers.Adam(lr=0.01),loss='sparse_categorical_crossentropy',metrics=['accuracy'])#metrics=['acc']参数是指定每一步输出的信息，是列表类型
     history=model.fit(train_image,train_label,epochs=5)
     print(history)
     #两种损失函数 sparse_categorical_crossentropy
