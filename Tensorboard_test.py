@@ -72,20 +72,6 @@ def tensorboard_test():
 # 自定义微分函数 使用 tensorboard 可视化网络训练参数
 def tensorboard_test():
 
-    # 定义自适应学习率函数(自定义参数)
-    def lr_sche(epoch):
-        learning_rate=0.2
-        if epoch>5:
-            learning_rate=0.02
-        if epoch>10:
-            learning_rate = 0.01
-        if epoch>20:
-            learning_rate = 0.005
-
-        # 记录自定义变量
-        tf.summary.scalar('learning_rate',data=learning_rate,step=epoch)
-        return learning_rate
-
     # 自定义损失和优化函数
     loss_func = keras.losses.SparseCategoricalCrossentropy(from_logits=True)
     optimizers = tf.optimizers.Adam()  # 优化器实例化
@@ -96,7 +82,6 @@ def tensorboard_test():
 
     train_log_dir_str = 'log/gradient_tape' + datetime.datetime.now().strftime('%y%m%d-%H%M%S')+'/train'
     test_log_dir_str = 'log/gradient_tape' + datetime.datetime.now().strftime('%y%m%d-%H%M%S')+'/test'
-    lr_callback = tf.keras.callbacks.LearningRateScheduler(lr_sche)
     train_file_writer = tf.summary.create_file_writer(train_log_dir_str)     #实例化文件编写器
     test_file_writer = tf.summary.create_file_writer(test_log_dir_str)     #实例化文件编写器
 
