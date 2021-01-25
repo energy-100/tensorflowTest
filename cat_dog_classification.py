@@ -11,7 +11,11 @@ import matplotlib.pyplot as plt
 def load_process_file(filepath,label):
     image = tf.io.read_file(filepath)
     image = tf.image.decode_jpeg(image,channels=3)
-    image = tf.image.resize(image,[256,256])
+    image = tf.image.resize(image,[360,360])
+    image = tf.image.random_crop(image, [256, 256, 3]) #随机裁剪
+    image = tf.image.random_flip_left_right(image) #随机左右反转
+    image = tf.image.random_flip_up_down(image) #随机上下反转
+    image = tf.image.random_brightness(image, 0.5) #随机改变亮度
     image=tf.cast(image,tf.float32)/255
     image=image/255
     # image = tf.image.convert_image_dtype #次函数会将图片格式转化为float32，并执行归一化，如果原数据类型是float32，则不会进行数据归一化的操作
