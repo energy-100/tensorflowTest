@@ -37,7 +37,7 @@ def transfer_learning_kaggle():
     BATCH_SIZE = 32
     train_count = len(train_image_path)
     test_count = len(test_image_path)
-    train_ds = train_ds.shuffle(train_count).batch(BATCH_SIZE)
+    train_ds = train_ds.shuffle(train_count).batch(BATCH_SIZE).repeat()
     test_ds=test_ds.batch(BATCH_SIZE)
     train_ds = train_ds.prefetch(tf.data.experimental.AUTOTUNE)
     test_ds = test_ds.prefetch(tf.data.experimental.AUTOTUNE)
@@ -130,7 +130,7 @@ def transfer_learning_Xecption_kaggle():
     BATCH_SIZE = 32
     train_count = len(train_image_path)
     test_count = len(test_image_path)
-    train_ds = train_ds.shuffle(train_count).batch(BATCH_SIZE)
+    train_ds = train_ds.shuffle(train_count).batch(BATCH_SIZE).repeat()
     test_ds=test_ds.batch(BATCH_SIZE)
     train_ds = train_ds.prefetch(tf.data.experimental.AUTOTUNE)
     test_ds = test_ds.prefetch(tf.data.experimental.AUTOTUNE)
@@ -175,3 +175,8 @@ def transfer_learning_Xecption_kaggle():
               initial_epoch=initial_epoch,
               steps_per_epoch=train_count//BATCH_SIZE,
               validation_steps=test_count//BATCH_SIZE)
+
+
+
+if __name__ == '__main__':
+    pass
