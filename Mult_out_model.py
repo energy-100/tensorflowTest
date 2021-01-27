@@ -13,7 +13,7 @@ def MultoutModel_demo():
         image = tf.image.resize(image, [224, 224])
         image = tf.cast(image, tf.float32)
         image = image / 255.0  # normalize to [0,1] range
-        image = 2 * image - 1
+        image = 2 * image - 1 #归一化 -1~1
         print(image)
         return image
 
@@ -75,5 +75,17 @@ def MultoutModel_demo():
                   metrics=['acc'])
     history=model.fit(train_ds,validation_data=test_ds,epochs=15,steps_per_epoch=train_count//BATCH_SIZE,validation_steps=(len(all_image_paths)-train_count)//BATCH_SIZE)
     print(history)
+    # 评价模型
+    model.evaluate(train_ds,test_ds,verbose=1)
+    predict_image=load_and_preprocess_image(r"D:\PyCharm_GitHub_local_Repository\tensorflowTest\Data\moc\black_jeans\00000000.jpg")
+    # 扩充维度
+    predict_image=np.expand_dims(predict_image,0)
+    pre=model.predict(predict_image)
+    precolor=np.argmax(pre[0][0]) #样本号，预测标签序号
+    print(precolor)
+
+    # 使用函数API对模型进行预测
+    pre=model(predict_image,training=True)
+
 if __name__ == '__main__':
     MultoutModel_demo()
