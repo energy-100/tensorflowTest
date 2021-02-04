@@ -7,6 +7,15 @@ import random
 from lxml import etree
 import numpy
 from matplotlib.patches import Rectangle
+
+# # 显示可用GPU
+# gpus = tf.config.experimental.list_physical_devices(device_type='GPU')
+# # 设置可用GPU，设置使用显存大小
+# tf.config.experimental.set_virtual_device_configuration(
+#     gpus[0],
+#     [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=1536)])
+
+
 def image_location_demo():
 
     image=glob.glob('./Data/location_image/images/*.jpg')
