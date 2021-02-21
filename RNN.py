@@ -115,7 +115,7 @@ def Pm25_predict():
                         validation_data=(test_x, test_y),
                         callbacks=[learning_rate_reduction]
                         )
-    print(history)
+    # print(history)
 
 if __name__ == '__main__':
     # RNN_demo()
